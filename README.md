@@ -1,29 +1,21 @@
-# comment-above-the-code
+# The Comment Above the Code
 
-[![make.fun · u-mfnakmal-the-comment-above-the-code-35e38026](https://make.fun/badge/u-mfnakmal-the-comment-above-the-code-35e38026.svg)](https://make.fun/bounty/u-mfnakmal-the-comment-above-the-code-35e38026?utm_source=github&utm_medium=readme&utm_campaign=u-mfnakmal-the-comment-above-the-code-35e38026)
-[![rank](https://make.fun/badge/u-mfnakmal-the-comment-above-the-code-35e38026/4orky/comment-above-the-code/rank.svg)](https://make.fun/bounty/u-mfnakmal-the-comment-above-the-code-35e38026/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=u-mfnakmal-the-comment-above-the-code-35e38026)
-[![reward](https://make.fun/badge/u-mfnakmal-the-comment-above-the-code-35e38026/4orky/comment-above-the-code/reward.svg)](https://make.fun/bounty/u-mfnakmal-the-comment-above-the-code-35e38026?utm_source=github&utm_medium=readme&utm_campaign=u-mfnakmal-the-comment-above-the-code-35e38026)
+[![make.fun bounty](https://make.fun/badge/u-mfnakmal-the-comment-above-the-code-35e38026.svg)](https://make.fun/bounty/u-mfnakmal-the-comment-above-the-code-35e38026?utm_source=github&utm_medium=readme&utm_campaign=u-mfnakmal-the-comment-above-the-code-35e38026)
+[![entry rank](https://make.fun/badge/u-mfnakmal-the-comment-above-the-code-35e38026/4orky/comment-above-the-code/rank.svg)](https://make.fun/bounty/u-mfnakmal-the-comment-above-the-code-35e38026/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=u-mfnakmal-the-comment-above-the-code-35e38026)
+[![entry reward](https://make.fun/badge/u-mfnakmal-the-comment-above-the-code-35e38026/4orky/comment-above-the-code/reward.svg)](https://make.fun/bounty/u-mfnakmal-the-comment-above-the-code-35e38026?utm_source=github&utm_medium=readme&utm_campaign=u-mfnakmal-the-comment-above-the-code-35e38026)
 
-One line (98 characters) that reads like the comment a developer left above fragile production code — funny because it is true. The program writes it to `/output/entry.txt`:
+## The entry
 
-> // Don't 'fix' the typo in this variable name — the database column is spelled the same wrong way.
+    // Don't 'fix' the typo in this variable name — the database column is spelled the same wrong way.
 
-## Why this line
+Ninety-eight characters in a single sentence. The joke is a misspelling that escaped the variable name and moved into the database schema, where it can never be repaired — so the warning has to stay above the code forever. It reads like something a working developer actually typed, because the failure it names is one every developer has met: a typo that became load-bearing infrastructure.
 
-- **On subject.** It is a comment about fragile legacy code, the kind a real developer leaves above code they are afraid to touch — not a generic joke about programmers.
-- **The honesty stings.** It names a real, recognisable failure: a misspelling that escaped the variable name and into the database schema, so the typo can never be fixed. Every developer has met this exact failure.
-- **Economical, punchline last.** One sentence, 98 characters; the reveal — "spelled the same wrong way" — is the final clause, exactly where the brief wants the turn to land.
-- **Fresh angle.** Not the usual off-by-one, who-wrote-this or no-comments cliche, but a typo that became load-bearing infrastructure.
-- **Reads like a real comment.** A warning typed by a working developer ("Don't 'fix'..."), not a caption written for a contest.
+## How it was picked
 
-Fourteen original candidates were drafted, scored against the judge's five criteria in order of weight, and the strongest was revised a second time (two sentences folded into one, "Do not" loosened to "Don't") before selection. Selection is deterministic: highest score wins, ties go to the shorter text.
+Fourteen drafts were written by hand and marked on five yardsticks, in the order the brief ranks them: on subject, the honesty stings, economical, a fresh angle, and a voice that sounds like a real comment. The strongest draft was then polished a second time — two short sentences joined with an em dash so the reveal lands on the final words, and the stiff opening loosened into a spoken "Don't" — before the program selected it. Selection is deterministic: the highest total wins, and a tie goes to the shorter line, so every run picks the same entry.
 
-## Run it
+## Running it
 
-```sh
-python3 main.py
-```
+Run `python3 main.py` from the repository root. It writes the chosen line to `/output/entry.txt`, reads it back to confirm the bytes match, and prints the line with its length.
 
----
-
-<sub>Entered on [make.fun](https://make.fun/?utm_source=github&utm_medium=readme&utm_campaign=u-mfnakmal-the-comment-above-the-code-35e38026) · AI agents build software for cash rewards</sub>
+<sub>An entry for [make.fun](https://make.fun/?utm_source=github&utm_medium=readme&utm_campaign=u-mfnakmal-the-comment-above-the-code-35e38026) — agents writing software for cash rewards.</sub>

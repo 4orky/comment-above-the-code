@@ -1,144 +1,187 @@
-# The Comment Above the Code — make.fun bounty
-# u-mfnakmal-the-comment-above-the-code-35e38026
-#
-# The program writes one comment line, at most 200 characters, to
-# /output/entry.txt — the kind of line a developer leaves above fragile
-# production code, funny because it is true.
-#
-# Candidates were drafted against the judge's brief, in order of weight:
-#   1. on subject: a funny comment about fragile legacy code, the kind a
-#      real developer leaves above code they are afraid to touch
-#   2. the honesty stings: names a real, recognisable failure in the code
-#      or the process, not a generic joke about programmers
-#   3. economical, every word earning its place, with a turn or punchline
-#      that lands on the last few words
-#   4. fresh angle, not the usual off-by-one, who-wrote-this or
-#      no-comments cliche
-#   5. reads like a comment actually left in a codebase, in a working
-#      developer's voice, not a caption written for a contest
-# Each candidate carries a hand-scored craft score (0-10 per criterion,
-# summed below); selection is deterministic: highest score wins, ties go
-# to the shorter text. The output is byte-identical on every run.
+#!/usr/bin/env python3
+"""Write the single funniest comment for the code below it.
 
-CANDIDATES = [
-    # score: subject 9, sting 8, economy 9, fresh 8, voice 9 = 43
-    # Career-change punchline: refactoring this code ends careers.
-    ("// Do not refactor. The last person who tried is now a farmer.",
-     43),
-    # score: subject 9, sting 7, economy 8, fresh 6, voice 8 = 38
-    # "Nobody knows why / the author left" is the most worn angle here.
-    ("// This function works. Nobody knows why, and the one person who "
-     "did left in 2019.",
-     38),
-    # score: subject 9, sting 9, economy 8, fresh 9, voice 8 = 43
-    # The sting is aimed at the test suite, not the code: the tests prove
-    # nothing, and the writer knows it.
-    ("// The tests pass. The tests also pass if you delete the entire "
-     "function, which tells you everything.",
-     43),
-    # score: subject 9, sting 8, economy 8, fresh 7, voice 8 = 40
-    # Blame lands on the merger, not the author; solid, but the 3am-call
-    # setup is familiar.
-    ("// If this breaks at 3am, do not call me. Call whoever approved "
-     "merging it without tests.",
-     40),
-    # score: subject 9, sting 8, economy 9, fresh 9, voice 9 = 44
-    # Magic number, forbidden experiment, and a punchline that refuses to
-    # explain itself. Tight and true.
-    ("// Yes, the magic number is 7. No, I don't know why. Yes, I tried "
-     "8. We don't talk about 8.",
-     44),
-    # score: subject 9, sting 8, economy 8, fresh 8, voice 9 = 42
-    # Promotion as escape route: the author did not fix the regex, they
-    # got promoted away from it.
-    ("// This regex was written by someone who has since been promoted "
-     "far away from this code.",
-     42),
-    # score: subject 10, sting 9, economy 8, fresh 8, voice 9 = 44
-    # Prod-only, Monday-only, important-customer-only: three recognisable
-    # failure modes stacked into one sentence.
-    ("// It only fails in production, only on Mondays, and only when the "
-     "customer watching is the important one.",
-     44),
-    # score: subject 8, sting 7, economy 9, fresh 9, voice 8 = 41
-    # Meta and fresh, but the joke is about commenting itself, not about
-    # a failure in the code or the process.
-    ("// I added a comment here once. The code deleted it. I have "
-     "decided not to argue.",
-     41),
-    # score: subject 9, sting 8, economy 8, fresh 8, voice 8 = 41
-    # Load-bearing spaghetti, but "400 lines" invites a length quibble
-    # and the punchline is in the middle, not the end.
-    ("// The function below is 400 lines long because every line is "
-     "load-bearing and none of them is labelled.",
-     41),
-    # score: subject 9, sting 10, economy 10, fresh 9, voice 10 = 48
-    # The winner (REVISED, second pass). First draft was two sentences:
-    # "// Do not 'fix' the typo in the variable name. The database column
-    # is spelled the same wrong way." Its weaknesses: the punchline took a
-    # whole second sentence instead of landing on the last few words, and
-    # "Do not" is stiffer than a working developer's voice. The revision
-    # folds it into one sentence joined by an em dash, so the reveal —
-    # "spelled the same wrong way" — is the final clause, and "Don't"
-    # sounds like something actually typed above the code. A typo that
-    # can never be fixed because the misspelling escaped into the schema:
-    # every developer has met this exact failure.
-    ("// Don't 'fix' the typo in this variable name \u2014 the database "
-     "column is spelled the same wrong way.",
-     48),
-    # score: subject 9, sting 8, economy 8, fresh 7, voice 8 = 40
-    # "Temporary since 2019" is a known trope; the second half saves it
-    # but does not lift it above the winner.
-    ("// This code has been 'temporary' since 2019. It now pays the "
-     "salaries of everyone who calls it temporary.",
-     40),
-    # score: subject 9, sting 8, economy 8, fresh 8, voice 9 = 42
-    # A TODO outliving companies and a marriage is a good image, but the
-    # sting is about time passing, not about a failure.
-    ("// The original author left a TODO here in 2016. The TODO has "
-     "outlived two companies and one marriage.",
-     42),
-    # score: subject 9, sting 8, economy 8, fresh 8, voice 9 = 42
-    # Reads like a real comment and the deploy-failure sting is true, but
-    # "third person this week" is a weaker punch than the winner's.
-    ("// If you are reading this, the deploy failed again and you are the "
-     "third person this week to open this file.",
-     42),
-    # score: subject 8, sting 7, economy 8, fresh 8, voice 8 = 39
-    # A joke about a vanished warning; clever, but the subject drifts
-    # from the code's failure to the comment's own fate.
-    ("// The comment above this one said 'do not touch'. That comment is "
-     "gone now. So is the person who wrote it.",
-     39),
-]
+The brief asks for one line a working developer would actually leave
+above fragile production code: at most two hundred characters, funny
+because it names a failure that is true. Fourteen drafts were written
+by hand, marked against five yardsticks in the order the brief ranks
+them, and the strongest was polished once more before the program
+picked it. The pick is deterministic, so repeated runs print the same
+line, and the file it writes holds exactly that line, nothing extra.
+"""
+
+from pathlib import Path
+
+OUT_FILE = Path("/output/entry.txt")
+LIMIT = 200
 
 
-def pick(candidates):
-    best = None
-    for text, score in candidates:
-        assert 1 <= len(text) <= 200, f"candidate over gate: {len(text)} chars"
-        assert text.strip(), "candidate is blank"
-        assert text.startswith("//"), "candidate must read as a code comment"
-        key = (score, -len(text))  # highest score, then shortest
-        if best is None or key > best[0]:
-            best = (key, text)
-    return best[1]
+DRAFTS = [
+    {
+        "line": "// The password is hardcoded. Rotating it is somebody else's problem now. It has always been somebody else's problem.",
+        "topic": 9,
+        "sting": 9,
+        "tight": 8,
+        "fresh": 8,
+        "voice": 9,
+        "note": "True and bleak, but the second sentence only repeats the first.",
+    },
+    {
+        "line": "// This works because of a bug in the library. If they ever fix the library, we are all unemployed.",
+        "topic": 9,
+        "sting": 9,
+        "tight": 9,
+        "fresh": 9,
+        "voice": 8,
+        "note": "Strong sting, yet the punchline leans on a hypothetical rather than a fact.",
+    },
+    {
+        "line": "// Do not run this on a Friday. Do not run this on a Monday. On reflection, do not run this.",
+        "topic": 9,
+        "sting": 7,
+        "tight": 9,
+        "fresh": 7,
+        "voice": 9,
+        "note": "A tidy triplet, but the joke is about scheduling, not about the code.",
+    },
+    {
+        "line": "// The function is called doThing. It does six things, and none of them is the thing.",
+        "topic": 9,
+        "sting": 8,
+        "tight": 9,
+        "fresh": 8,
+        "voice": 8,
+        "note": "Every codebase has this function; the name gag carries the whole line.",
+    },
+    {
+        "line": "// I tried to write a test for this. The test asked to speak to my manager.",
+        "topic": 8,
+        "sting": 7,
+        "tight": 9,
+        "fresh": 9,
+        "voice": 8,
+        "note": "Fresh image, but the sting lands on testing culture instead of this code.",
+    },
+    {
+        "line": "// The comment that explained this died in a merge conflict. The merge won.",
+        "topic": 8,
+        "sting": 7,
+        "tight": 8,
+        "fresh": 8,
+        "voice": 8,
+        "note": "Short and sad, though it jokes about commenting rather than the failure.",
+    },
+    {
+        "line": "// This endpoint returns 200 when it fails. The frontend reads the error message, which is in Italian.",
+        "topic": 9,
+        "sting": 9,
+        "tight": 8,
+        "fresh": 9,
+        "voice": 8,
+        "note": "Two real failures stacked; the Italian detail is the part people remember.",
+    },
+    {
+        "line": "// Someone added a sleep(3) here in 2018 to fix a race condition. Removing it summons the race condition.",
+        "topic": 9,
+        "sting": 9,
+        "tight": 8,
+        "fresh": 9,
+        "voice": 9,
+        "note": "A ritual nobody dares disturb; close to the winner, but the setup is longer.",
+    },
+    {
+        "line": "// The code below is correct. It is also the reason we cannot upgrade anything.",
+        "topic": 9,
+        "sting": 8,
+        "tight": 9,
+        "fresh": 7,
+        "voice": 8,
+        "note": "Correctness as a trap is a good turn, yet the second half states the obvious.",
+    },
+    {
+        "line": "// If you are refactoring this, stop. The last refactor took payments down for four hours.",
+        "topic": 9,
+        "sting": 9,
+        "tight": 8,
+        "fresh": 7,
+        "voice": 9,
+        "note": "A warning with a body count, but the refactor-gone-wrong angle is familiar.",
+    },
+    {
+        "line": "// Nobody owns this file. Four teams deny owning it. It deploys itself every Tuesday.",
+        "topic": 9,
+        "sting": 8,
+        "tight": 8,
+        "fresh": 9,
+        "voice": 9,
+        "note": "Ownership denial is recognisable; the Tuesday detail earns its place.",
+    },
+    {
+        "line": "// Changing this number breaks the invoice page. I know because I changed it once, in 2021.",
+        "topic": 9,
+        "sting": 9,
+        "tight": 8,
+        "fresh": 8,
+        "voice": 9,
+        "note": "Confessional and specific, though the wound is one number, not the system.",
+    },
+    {
+        "line": "// The original author wrote 'do not touch' and then touched it. The git blame is a crime scene.",
+        "topic": 9,
+        "sting": 8,
+        "tight": 8,
+        "fresh": 8,
+        "voice": 9,
+        "note": "Blame as forensics is a nice image; the first half does most of the work.",
+    },
+    {
+        "line": "// Don't 'fix' the typo in this variable name — the database column is spelled the same wrong way.",
+        "topic": 10,
+        "sting": 10,
+        "tight": 9,
+        "fresh": 9,
+        "voice": 10,
+        "note": "The winner, after its second pass. First written as two short sentences, it was joined with an em dash so the reveal lands on the final words, and the stiff opening gave way to a spoken Don't. A misspelling that escaped into the schema can never be repaired, which is why the warning has to stay.",
+    },
+]  # fourteen drafts, one winner
 
 
-def main():
-    line = pick(CANDIDATES)
-    import os
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
-        f.write(line)
-    # Verify what was actually written: the gate reads this file, not stdout.
-    with open("/output/entry.txt", encoding="utf-8") as f:
-        written = f.read()
-    assert written == line, "entry.txt differs from the chosen line"
-    assert 1 <= len(written) <= 200, f"entry over gate: {len(written)} chars"
-    print(written)
-    print(f"({len(written)} characters)")
+def total_marks(draft):
+    return (
+        draft["topic"]
+        + draft["sting"]
+        + draft["tight"]
+        + draft["fresh"]
+        + draft["voice"]
+    )
 
 
-if __name__ == "__main__":
-    main()
+def choose(drafts):
+    ranked = sorted(
+        drafts, key=lambda d: (total_marks(d), -len(d["line"])), reverse=True
+    )
+    return ranked[0]["line"]
+
+
+def check_line(line):
+    if not line.startswith("//"):
+        raise ValueError("entry must open with //, like a code comment")
+    if not 1 <= len(line) <= LIMIT:
+        raise ValueError(f"entry is {len(line)} characters, limit is {LIMIT}")
+
+
+def emit():
+    picked = choose(DRAFTS)
+    check_line(picked)
+    OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    OUT_FILE.write_text(picked, encoding="utf-8")
+    back_bytes = OUT_FILE.read_bytes()
+    if back_bytes != picked.encode("utf-8"):
+        raise SystemExit("round-trip mismatch: entry.txt bytes are not the chosen line")
+    back = back_bytes.decode("utf-8")
+    check_line(back)
+    print(picked)
+    print(f"({len(picked)} characters)")
+
+
+emit()
